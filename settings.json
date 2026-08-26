@@ -4,18 +4,108 @@
   "skip_hidden_files": true,
   "others_folder_name": "Others",
   "log_file": "organizer.log",
+  "file_operation": "copy",
+  "ai_rename_enabled": true,
+  "ai_model": "openai/gpt-4o-mini",
+  "ai_max_content_chars": 4000,
+  "ai_timeout_seconds": 20,
+  "ai_rename_extensions": null,
   "extension_destinations": {
-    "pdf": "/Users/lejiend/Library/CloudStorage/GoogleDrive-bathulahmahir@gmail.com/My Drive/Test/PDF"
+    "pdf": "/Users/lejiend/Library/CloudStorage/GoogleDrive-bathulahmahir@gmail.com/My Drive/Test-Tutorial/PDF2"
+
   },
   "categories": {
-    "Images": ["jpg", "jpeg", "png", "gif", "bmp", "svg", "webp", "heic", "heif", "tiff", "ico"],
-    "Documents": ["pdf", "doc", "docx", "txt", "rtf", "odt", "md", "pages", "epub"],
-    "Spreadsheets": ["xls", "xlsx", "csv", "ods", "numbers", "tsv"],
-    "Presentations": ["ppt", "pptx", "key", "odp"],
-    "Audio": ["mp3", "wav", "aac", "flac", "m4a", "ogg", "wma"],
-    "Video": ["mp4", "mov", "avi", "mkv", "wmv", "flv", "webm", "m4v"],
-    "Archives": ["zip", "rar", "7z", "tar", "gz", "bz2", "xz"],
-    "Code": ["py", "js", "ts", "jsx", "tsx", "html", "css", "json", "java", "c", "cpp", "sh", "rb", "go", "php", "swift", "yml", "yaml"],
-    "Installers": ["dmg", "pkg", "exe", "msi"]
+    "Images": [
+      "jpg",
+      "jpeg",
+      "png",
+      "gif",
+      "bmp",
+      "svg",
+      "webp",
+      "heic",
+      "heif",
+      "tiff",
+      "ico"
+    ],
+    "Documents": [
+      "pdf",
+      "doc",
+      "docx",
+      "txt",
+      "rtf",
+      "odt",
+      "md",
+      "pages",
+      "epub"
+    ],
+    "Spreadsheets": [
+      "xls",
+      "xlsx",
+      "csv",
+      "ods",
+      "numbers",
+      "tsv"
+    ],
+    "Presentations": [
+      "ppt",
+      "pptx",
+      "key",
+      "odp"
+    ],
+    "Audio": [
+      "mp3",
+      "wav",
+      "aac",
+      "flac",
+      "m4a",
+      "ogg",
+      "wma"
+    ],
+    "Video": [
+      "mp4",
+      "mov",
+      "avi",
+      "mkv",
+      "wmv",
+      "flv",
+      "webm",
+      "m4v"
+    ],
+    "Archives": [
+      "zip",
+      "rar",
+      "7z",
+      "tar",
+      "gz",
+      "bz2",
+      "xz"
+    ],
+    "Code": [
+      "py",
+      "js",
+      "ts",
+      "jsx",
+      "tsx",
+      "html",
+      "css",
+      "json",
+      "java",
+      "c",
+      "cpp",
+      "sh",
+      "rb",
+      "go",
+      "php",
+      "swift",
+      "yml",
+      "yaml"
+    ],
+    "Installers": [
+      "dmg",
+      "pkg",
+      "exe",
+      "msi"
+    ]
   }
 }

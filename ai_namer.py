@@ -9,12 +9,9 @@ OpenRouter (https://openrouter.ai) to suggest a short, descriptive
 filename based on what the file actually contains, instead of whatever
 generic name it arrived with (e.g. "IMG_4821.png", "download (3).pdf").
 
-The model is specifically prompted to work out the document's PURPOSE
-(invoice, receipt, agreement, transfer confirmation, etc.) and the other
-PARTY involved if there is one (who it's to/from), and to combine both
-into the name, e.g. "Invoice - Ruang Kerja Damai" or "Transfer Receipt -
-John Tan" — falling back to just the purpose/content when there's no
-clear counterparty.
+The model is specifically prompted to work out the document's PURPOSE,
+the PARTY involved, and the PERIOD/DATE (e.g., month/year), combining
+them as "Purpose - Party - Period" (e.g., "Payment Receipt - Ruang Kerja Damai - Aug 2026").
 
 Design goals:
 - Never block or crash a sort. Any failure (missing API key, no network,
@@ -159,19 +156,21 @@ def suggest_filename(path: Path, settings, api_key: Optional[str]) -> Optional[s
             return None
 
     instruction = (
-        "You are naming a file for a personal computer folder. Read its "
-        "content and work out two things: (1) the PURPOSE of the document "
+       "You are naming a file for a personal computer folder. Read its "
+        "content and work out three things: (1) the PURPOSE of the document "
         "— what it is, e.g. invoice, receipt, contract/agreement, transfer "
-        "confirmation, report, resume, meeting notes; and (2) the other "
-        "PARTY involved, if there is one — the person, client, company, or "
-        "recipient/sender it's to or from (e.g. who a payment was "
-        "transferred to, who an agreement is with, who a receipt is from). "
-        "Combine both into the filename as 'Purpose - Party', e.g. "
-        "'Invoice - Ruang Kerja Damai', 'Transfer Receipt - John Tan', "
-        "'Freelance Agreement - Threads Promotion'. If there's genuinely no "
-        "other party (e.g. personal notes, a screenshot of a UI), just "
-        "describe the purpose/content on its own. "
-        "3-8 words total, no file extension, no quotes, no path, use "
+        "confirmation, bank statement, report; (2) the other PARTY involved, "
+        "if there is one — the person, client, company, or recipient/sender "
+        "it's to or from; and (3) the PERIOD or DATE, if applicable — e.g. "
+        "month and year (e.g. 'Aug 2026', 'Jul 2026'), date (e.g. '2026-08-15'), "
+        "or billing period. "
+        "Combine them into the filename as 'Purpose - Party - Period', e.g. "
+        "'Payment Receipt - Ruang Kerja Damai - Aug 2026', "
+        "'Invoice - Cloud Services - Jul 2026', "
+        "'Freelance Agreement - Threads Promotion - 2026'. "
+        "If there is no specific party, use 'Purpose - Period'. "
+        "If there is no date/period, fall back to 'Purpose - Party'. "
+        "3-10 words total, no file extension, no quotes, no path, use "
         "spaces or hyphens only, no other special characters. "
         "Reply with ONLY the filename and nothing else.\n\n"
         f"Original filename: {path.name}\n"
