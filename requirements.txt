@@ -1,0 +1,13 @@
+# Core (required for organizer.py and the AI renaming feature)
+requests>=2.31
+python-dotenv>=1.0
+
+# AI renaming: content extraction for specific file types.
+# Missing one of these just means AI renaming is skipped for that file
+# type (e.g. no pypdf -> PDFs keep their original name); everything else
+# still works.
+pypdf>=4.0        # lets AI renaming read .pdf files
+python-docx>=1.1  # lets AI renaming read .docx files
+
+# Optional: only needed for watch.py (Option B / continuous watcher in README.md)
+watchdog>=4.0

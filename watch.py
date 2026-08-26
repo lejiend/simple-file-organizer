@@ -53,8 +53,9 @@ class SortOnCreate(FileSystemEventHandler):
         if not p.exists():
             return  # e.g. a temp file that got renamed/removed already
         result = organize(self.settings)
-        for src, dest in result["moved"]:
-            print(f"Sorted: {src.name} -> {dest.parent.name}/{dest.name}")
+        for src, dest, was_renamed in result["moved"]:
+            tag = "  [renamed by AI]" if was_renamed else ""
+            print(f"Sorted: {src.name} -> {dest.parent.name}/{dest.name}{tag}")
         for src, err in result["errors"]:
             print(f"ERROR moving {src.name}: {err}", file=sys.stderr)
 
