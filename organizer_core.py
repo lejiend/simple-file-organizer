@@ -41,6 +41,7 @@ class Settings:
     log_file: Path | None
     categories: dict[str, list[str]]
     ext_to_category: dict[str, str] = field(default_factory=dict, repr=False)
+    extension_destinations: dict[str, Path] = field(default_factory=dict, repr=False)
 
     def __post_init__(self):
         ext_map = {}
@@ -75,6 +76,16 @@ def load_settings(config_path: str | Path, overrides: dict | None = None) -> Set
             # relative log paths live next to the settings file
             log_file = config_path.parent / log_file
 
+    extension_destinations_raw = raw.get("extension_destinations", {}) or {}
+    extension_destinations = {}
+    for ext, target in extension_destinations_raw.items():
+        if target is None:
+            continue
+        dest_path = Path(os.path.expanduser(os.path.expandvars(str(target))))
+        if not dest_path.is_absolute():
+            dest_path = config_path.parent / dest_path
+        extension_destinations[ext.lower().lstrip(".")] = dest_path
+
     return Settings(
         target_folder=target_folder,
         dry_run=bool(raw.get("dry_run", False)),
@@ -82,6 +93,7 @@ def load_settings(config_path: str | Path, overrides: dict | None = None) -> Set
         others_folder_name=raw.get("others_folder_name", DEFAULT_OTHERS_FOLDER),
         log_file=log_file,
         categories=raw.get("categories", {}),
+        extension_destinations=extension_destinations,
     )
 
 
@@ -145,7 +157,8 @@ def organize(settings: Settings, dry_run_override: bool | None = None) -> dict:
 
     for src in _iter_candidate_files(settings):
         category = settings.category_for(src.name)
-        dest_dir = settings.target_folder / category
+        extension = src.suffix.lower().lstrip(".")
+        dest_dir = settings.extension_destinations.get(extension, settings.target_folder / category)
         dest_path = _unique_destination(dest_dir, src.name)
 
         try:
